@@ -20,7 +20,7 @@ class Point:
 
     def __hash__(self):
         return hash((self.x, self.y))
-    
+
 
     def distance_to(self, pt: 'Point') -> float:
         ''' Compute the distance from self to pt'''

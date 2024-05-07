@@ -37,12 +37,12 @@ def check_point(
         bisect.insort(nearest_pts, (check_idx, dist), key = lambda pt_data : pt_data[1])
         edges.add(edge)
         return True
-    
+
     # If this is greater or equal to the last point, then
     # it is not a nearest point.
     elif dist >= nearest_pts[-1][1]:
         return False
-    
+
     # Otherwise we remove the last element (the point with the
     # longest distance) and insert it into the list where it belongs.
     # We also need to remove the edge from the list of edges.
@@ -58,7 +58,7 @@ def check_point(
 
 def create_graph(pts: list[point.Point], degree: int, outfile):
     ''' Create a graph '''
-    
+
     # Sort the points by x coordinate.  We don't
     # care about the y coordinates; in fact, we're
     # probably better off keeping the y ordering
@@ -106,7 +106,7 @@ def create_graph(pts: list[point.Point], degree: int, outfile):
                 edges.add((i, next_idx))
                 done = True
 
-        while (True):
+        while True:
 
             # Figure out if we can go left or right.
             max_dist = nearest_pts[-1][1]
@@ -128,14 +128,15 @@ def create_graph(pts: list[point.Point], degree: int, outfile):
             if not done_right:
                 next_idx += 1
                 check_point(nearest_pts, pts, i, next_idx, degree, edges)
-            
+
         for near_pt in nearest_pts:
             idx = near_pt[0]
             dist = near_pt[1]
-            outfile.write(f"{pts[i]} {pts[idx]} {dist:.4f}\n")
+            outfile.write(f"{pt} {pts[idx]} {dist:.4f}\n")
 
 
 def main(argv):
+    ''' main function '''
     if len(argv) < 3:
         print("usage: create_graph <pointfile> <degree> [<graphfile>]")
         print("    Creates graph from the points in <pointfile>")
