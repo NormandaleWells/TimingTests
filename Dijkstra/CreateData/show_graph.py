@@ -22,16 +22,18 @@ def convert_point(pt, size, window_size):
     return Point(x, y)
 
 
-def show_graph(in_file, size):
+def show_graph(in_file_name: str, size: int) -> None:
     margin = 10
-    window_size = 1000
-    win = GraphWin("Points",
+    window_size = 800
+    win = GraphWin(in_file_name,
             window_size + 2 * margin,
             window_size + 2 * margin)
     win.setCoords(-margin, -margin,
             window_size + margin,
             window_size + margin)
+    in_file = open(in_file_name, "r")
     lines = read_lines(in_file)
+    in_file.close()
     if size == None:
         x_max = max(lines, key = lambda l : max(l[0].x, l[1].x))
         y_max = max(lines, key = lambda l : max(l[0].y, l[1].y))
@@ -51,13 +53,11 @@ def main(argv):
         print("    a 600x600 window, mapped as <size>x<size>.")
         sys.exit()
 
-    in_file = open(argv[1], "r")
     if len(argv) > 3:
         size = None
     else:
         size = int(argv[2])
-    show_graph(in_file, size)
-    in_file.close()
+    show_graph(argv[1], size)
 
 
 if __name__ == "__main__":
