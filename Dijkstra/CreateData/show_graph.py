@@ -22,6 +22,7 @@ def convert_point(pt, size, window_size):
     return Point(x, y)
 
 
+<<<<<<< HEAD
 def show_graph(in_file_name: str, size: int) -> None:
     margin = 10
     window_size = 800
