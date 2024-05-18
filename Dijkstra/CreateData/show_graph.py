@@ -1,12 +1,19 @@
+'''
+    show_graph
+
+    Program to display a graph created by create_graph.
+'''
 import sys
 
+from typing import Tuple
 
-from graphics import *
-import point_utils
+
+import graphics
 import point
 
 
-def read_lines(in_file):
+def read_lines(in_file) -> list[Tuple[point.Point, point.Point]]:
+    ''' Read the lines from the given file. '''
     lines = []
     for line in in_file:
         fields = line.strip().split()
@@ -16,13 +23,13 @@ def read_lines(in_file):
     return lines
 
 
-def convert_point(pt, size, window_size):
+def convert_point(pt: point.Point, size: int, window_size: int) -> graphics.Point:
+    ''' Convert the given point to a graphics point'''
     x = (pt.x / size) * window_size
     y = (pt.y / size) * window_size
-    return Point(x, y)
+    return graphics.Point(x, y)
 
 
-<<<<<<< HEAD
 def show_graph(in_file_name: str, size: int) -> None:
     margin = 10
     window_size = 800
@@ -39,17 +46,19 @@ def show_graph(in_file_name: str, size: int) -> None:
         x_max = max(lines, key = lambda l : max(l[0].x, l[1].x))
         y_max = max(lines, key = lambda l : max(l[0].y, l[1].y))
         size = max(x_max, y_max)
+    lines: list[Tuple[point.Point, point.Point]] = read_lines(in_file)
     for line in lines:
         pt1 = convert_point(line[0], size, window_size)
         pt2 = convert_point(line[1], size, window_size)
-        Line(pt1, pt2).draw(win)
+        graphics.Line(pt1, pt2).draw(win)
     win.getMouse()
     win.close()
 
 
-def main(argv):
-    if len(argv) < 2:
-        print("usage: show_points <pointfile> [<size>]")
+def main(argv: list[str]) -> None:
+    ''' main function '''
+    if len(argv) < 3:
+        print("usage: show_points <pointfile> <size>")
         print("    Display the points in <pointfile> in")
         print("    a 600x600 window, mapped as <size>x<size>.")
         sys.exit()
