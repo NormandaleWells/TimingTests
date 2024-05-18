@@ -24,7 +24,7 @@ def convert_point(pt, size, window_size):
 
 def show_graph(in_file, size):
     margin = 10
-    window_size = 800
+    window_size = 1000
     win = GraphWin("Points",
             window_size + 2 * margin,
             window_size + 2 * margin)
