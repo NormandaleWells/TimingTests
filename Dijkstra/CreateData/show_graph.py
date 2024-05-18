@@ -33,20 +33,19 @@ def convert_point(pt: point.Point, size: int, window_size: int) -> graphics.Poin
 def show_graph(in_file_name: str, size: int) -> None:
     margin = 10
     window_size = 800
-    win = GraphWin(in_file_name,
+    win = graphics.GraphWin(in_file_name,
             window_size + 2 * margin,
             window_size + 2 * margin)
     win.setCoords(-margin, -margin,
             window_size + margin,
             window_size + margin)
     in_file = open(in_file_name, "r")
-    lines = read_lines(in_file)
+    lines: list[Tuple[point.Point, point.Point]] = read_lines(in_file)
     in_file.close()
     if size == None:
         x_max = max(lines, key = lambda l : max(l[0].x, l[1].x))
         y_max = max(lines, key = lambda l : max(l[0].y, l[1].y))
         size = max(x_max, y_max)
-    lines: list[Tuple[point.Point, point.Point]] = read_lines(in_file)
     for line in lines:
         pt1 = convert_point(line[0], size, window_size)
         pt2 = convert_point(line[1], size, window_size)
