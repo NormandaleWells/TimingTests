@@ -13,7 +13,11 @@ class Point:
 
     def __hash__(self):
         return hash((self.x, self.y))
-    
+
+
+    def __eq__(self, pt):
+        return self.x == pt.x and self.y == pt.y
+
 
     def distance_to(self, pt):
         dx = pt.x - self.x
