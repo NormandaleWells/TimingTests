@@ -39,7 +39,6 @@ def check_point(
 
     # If this is greater or equal to the last point, then
     # it is not a nearest point.
-    print(f"{idx} {check_idx} {num_needed} {nearest_pts}")
     if dist >= nearest_pts[-1][1]:
         return False
 
