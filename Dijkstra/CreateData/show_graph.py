@@ -30,17 +30,18 @@ def convert_point(pt: point.Point, size: int, window_size: int) -> graphics.Poin
     return graphics.Point(x, y)
 
 
-def show_graph(in_file, size: int) -> None:
-    ''' Display the graph stored in 'infile' '''
+def show_graph(in_file_name: str, size: int) -> None:
     margin = 10
     window_size = 800
-    win = graphics.GraphWin("Points",
+    win = graphics.GraphWin(in_file_name,
             window_size + 2 * margin,
             window_size + 2 * margin)
     win.setCoords(-margin, -margin,
             window_size + margin,
             window_size + margin)
+    in_file = open(in_file_name, "r")
     lines: list[Tuple[point.Point, point.Point]] = read_lines(in_file)
+    in_file.close()
     for line in lines:
         pt1 = convert_point(line[0], size, window_size)
         pt2 = convert_point(line[1], size, window_size)
@@ -57,10 +58,7 @@ def main(argv: list[str]) -> None:
         print("    a 600x600 window, mapped as <size>x<size>.")
         sys.exit()
 
-    in_file = open(argv[1], "r", encoding="utf_8")
-    size = int(argv[2])
-    show_graph(in_file, size)
-    in_file.close()
+    show_graph(argv[1], int(argv[2]))
 
 
 if __name__ == "__main__":

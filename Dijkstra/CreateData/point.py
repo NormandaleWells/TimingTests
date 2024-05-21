@@ -9,9 +9,9 @@ import math
 class Point:
     ''' The Point class '''
 
-    def __init__(self, x, y):
-        self.x = x
-        self.y = y
+    def __init__(self, x: int, y: int):
+        self.x: int = x
+        self.y: int = y
 
 
     def __str__(self):
@@ -20,6 +20,10 @@ class Point:
 
     def __hash__(self):
         return hash((self.x, self.y))
+
+
+    def __eq__(self, pt):
+        return self.x == pt.x and self.y == pt.y
 
 
     def distance_to(self, pt: 'Point') -> float:
