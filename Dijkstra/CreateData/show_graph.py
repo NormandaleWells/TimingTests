@@ -42,10 +42,6 @@ def show_graph(in_file_name: str, size: int) -> None:
     in_file = open(in_file_name, "r")
     lines: list[Tuple[point.Point, point.Point]] = read_lines(in_file)
     in_file.close()
-    if size == None:
-        x_max = max(lines, key = lambda l : max(l[0].x, l[1].x))
-        y_max = max(lines, key = lambda l : max(l[0].y, l[1].y))
-        size = max(x_max, y_max)
     for line in lines:
         pt1 = convert_point(line[0], size, window_size)
         pt2 = convert_point(line[1], size, window_size)
@@ -62,11 +58,7 @@ def main(argv: list[str]) -> None:
         print("    a 600x600 window, mapped as <size>x<size>.")
         sys.exit()
 
-    if len(argv) > 3:
-        size = None
-    else:
-        size = int(argv[2])
-    show_graph(argv[1], size)
+    show_graph(argv[1], int(argv[2]))
 
 
 if __name__ == "__main__":
