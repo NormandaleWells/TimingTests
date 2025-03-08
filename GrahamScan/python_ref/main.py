@@ -5,19 +5,17 @@ from typing import Any
 
 from graham import graham
 from point import Point
+from point import parse_point
 
 
 def read_points(filename: str) -> list[Point]:
     pts_file: TextIOWrapper = open(filename, "r")
     pts: list[Point] = []
     for line in pts_file:
+        line = line.strip()
         if len(line) == 0: continue
         if line[0] == "#": continue
-        fields = line.strip().split(',')
-        if len(fields) != 2:
-            print(f"Invalid input: {line.strip()}")
-            sys.exit()
-        pt: Point = Point(int(fields[0]), int(fields[1]))
+        pt = parse_point(line)
         pts.append(pt)
     return pts
 
@@ -41,11 +39,17 @@ def write_points(pts: list[Point], filename: str = "") -> None:
 
 def main() -> None:
     if len(sys.argv) == 1:
-        print("usage: main <filename>")
+        print("usage: main <infile> [<outfile>]")
         sys.exit()
-    pts: list[Point] = read_points(sys.argv[1])
+
+    infile:str = sys.argv[1]
+    outfile: str = ""
+    if len(sys.argv) > 2:
+        outfile = sys.argv[2]
+
+    pts: list[Point] = read_points(infile)
     hull = graham(pts)
-    write_points(hull)
+    write_points(hull, outfile)
 
 
 if __name__ == "__main__":
