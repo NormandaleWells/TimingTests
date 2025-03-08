@@ -17,7 +17,7 @@ def read_points(filename: str) -> list[Point]:
         if len(fields) != 2:
             print(f"Invalid input: {line.strip()}")
             sys.exit()
-        pt: Point = (int(fields[0]), int(fields[1]))
+        pt: Point = Point(int(fields[0]), int(fields[1]))
         pts.append(pt)
     return pts
 
@@ -33,7 +33,7 @@ def write_points(pts: list[Point], filename: str = "") -> None:
         pts_file = sys.stdout
 
     for pt in pts:
-        pts_file.write(f"{pt[0]},{pt[1]}\n")
+        pts_file.write(f"{str(pt)}\n")
 
     if filename != "":
         pts_file.close()
