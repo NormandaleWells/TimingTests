@@ -11,37 +11,80 @@ import point_utils
 import point
 
 
-def show_points(in_file, size: int):
-    ''' Display points produced by generate_points.py'''
-    margin = 10
-    window_size = 600
+def create_window(window_size: int, margin: int) -> graphics.GraphWin:
     win = graphics.GraphWin("Points",
             window_size + 2 * margin,
             window_size + 2 * margin)
     win.setCoords(-margin, -margin,
             window_size + margin,
             window_size + margin)
-    pts: list[point.Point] = point_utils.read_points(in_file)
-    for pt in pts:
-        x = (pt.x / size) * window_size
-        y = (pt.y / size) * window_size
-        graphics.Circle(graphics.Point(x, y), 2).draw(win)
+    return win
+
+
+def wait_for_click(win: graphics.GraphWin):
     win.getMouse()
     win.close()
 
 
-def main(argv):
+def get_graphics_point(pt: point.Point, window_size: int, size: int) -> graphics.Point:
+        x = (pt.x / size) * window_size
+        y = (pt.y / size) * window_size
+        return graphics.Point(x, y)
+
+
+def show_points(win: graphics.GraphWin, window_size: int, in_file, size: int):
+    ''' Display points produced by generate_points.py'''
+    pts: list[point.Point] = point_utils.read_points(in_file)
+    for pt in pts:
+        center: graphics.Point = get_graphics_point(pt, window_size, size)
+        circle: graphics.Circle = graphics.Circle(center, 2)
+        circle.draw(win)
+
+
+def show_polyline(win: graphics.GraphWin, window_size: int, in_file, size: int):
+    ''' Display polyline produced by graham.py'''
+    pts: list[point.Point] = point_utils.read_points(in_file)
+    pts.append(pts[0])
+    center: graphics.Point = get_graphics_point(pts[0], window_size, size)
+    circle: graphics.Circle = graphics.Circle(center, 2)
+    circle.setFill("red")
+    circle.setOutline("red")
+    circle.draw(win)
+    for i in range(1, len(pts)):
+        p1: graphics.Point = get_graphics_point(pts[i-1], window_size, size)
+        p2: graphics.Point = get_graphics_point(pts[i  ], window_size, size)
+        line: graphics.Line = graphics.Line(p1, p2)
+        line.setOutline("red")
+        line.draw(win)
+        circle = graphics.Circle(p1, 2)
+        circle.setFill("red")
+        circle.setOutline("red")
+        circle.draw(win)
+
+
+def main(argv) -> None:
     ''' main function '''
-    if len(argv) < 2:
-        print("usage: show_points <pointfile> <size>")
+    if len(argv) < 4:
+        print("usage: show_points <pointfile> <hullfile> <size>")
         print("    Display the points in <pointfile> in")
         print("    a 600x600 window, mapped as <size>x<size>.")
+        print("    Then draw the polyline defined by <hullfile>.")
         sys.exit()
 
-    in_file = open(argv[1], "r", encoding="utf_8")
-    size = int(argv[2])
-    show_points(in_file, size)
-    in_file.close()
+    pts_file = open(argv[1], "r", encoding="utf_8")
+    hull_file = open(argv[2], "r", encoding="utf_8")
+    size = int(argv[3])
+
+    window_size = 800
+    margin = 10
+
+    win: graphics.GraphWin = create_window(window_size, margin)
+    show_points(win, window_size, pts_file, size)
+    show_polyline(win, window_size, hull_file, size)
+    wait_for_click(win)
+
+    hull_file.close()
+    pts_file.close()
 
 
 if __name__ == "__main__":
