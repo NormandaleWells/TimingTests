@@ -1,6 +1,7 @@
 
 from io import TextIOWrapper
 import sys
+import time
 from typing import Any
 
 from graham import graham
@@ -48,8 +49,11 @@ def main() -> None:
         outfile = sys.argv[2]
 
     pts: list[Point] = read_points(infile)
+    start: float = time.process_time()
     hull = graham(pts)
+    end: float = time.process_time()
     write_points(hull, outfile)
+    print(f"{end-start:.4f}")
 
 
 if __name__ == "__main__":
