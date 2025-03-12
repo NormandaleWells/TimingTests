@@ -49,9 +49,9 @@ def main() -> None:
         outfile = sys.argv[2]
 
     pts: list[Point] = read_points(infile)
-    start: float = time.process_time()
+    start: float = time.thread_time()
     hull = graham(pts)
-    end: float = time.process_time()
+    end: float = time.thread_time()
     write_points(hull, outfile)
     print(f"{end-start:.4f}")
 
