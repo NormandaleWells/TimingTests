@@ -34,6 +34,11 @@ of points in the input, and `<n>` is simply a test
 number.  The first format is used for timing tests,
 while the second is used for functionality tests.
 
+The test implementation may assume that all coordinates
+are in the range -30000..30000.  This allows the `ccw()`
+function (as defined in the Wikipedia article referenced above)
+to assume there will be no integer overflow.
+
 There are also files containing the expected output
 for each test.  These have names in the form
 ```
