@@ -1,6 +1,7 @@
 
 from io import TextIOWrapper
 import sys
+import time
 from typing import Any
 
 from graham import graham
@@ -13,10 +14,15 @@ def read_points(filename: str) -> list[Point]:
     for line in pts_file:
         if len(line) == 0: continue
         if line[0] == "#": continue
-        fields = line.strip().split(',')
+        line = line.strip()
+        if line[0] != "(":
+            raise ValueError("parse_point: does not start with '('")
+        if line[-1] != ")":
+            raise ValueError("parse_point: does not end with ')'")
+
+        fields = line[1:-1].replace(" ", "").split(',')
         if len(fields) != 2:
-            print(f"Invalid input: {line.strip()}")
-            sys.exit()
+            raise ValueError(f"parse_point: {len(fields)} fields found, 2 expected")
         pt: Point = (int(fields[0]), int(fields[1]))
         pts.append(pt)
     return pts
@@ -33,7 +39,7 @@ def write_points(pts: list[Point], filename: str = "") -> None:
         pts_file = sys.stdout
 
     for pt in pts:
-        pts_file.write(f"{pt[0]},{pt[1]}\n")
+        pts_file.write(f"({pt[0]},{pt[1]})\n")
 
     if filename != "":
         pts_file.close()
@@ -41,11 +47,21 @@ def write_points(pts: list[Point], filename: str = "") -> None:
 
 def main() -> None:
     if len(sys.argv) == 1:
-        print("usage: main <filename>")
+        print("usage: main <infile> [<outfile>]")
         sys.exit()
-    pts: list[Point] = read_points(sys.argv[1])
+
+    infile:str = sys.argv[1]
+    outfile: str = ""
+    if len(sys.argv) > 2:
+        outfile = sys.argv[2]
+
+    pts: list[Point] = read_points(infile)
+    start: float = time.thread_time()
     hull = graham(pts)
-    write_points(hull)
+    end: float = time.thread_time()
+
+    write_points(hull, outfile)
+    print(f"{end-start:.4f}")
 
 
 if __name__ == "__main__":
