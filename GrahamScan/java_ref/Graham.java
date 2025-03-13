@@ -39,8 +39,9 @@ public class Graham {
     
         for (Point pt : pts) {
             int np = hull.size();
-            while ((hull.size() > 1) && (ccw(pts.get(np-2), pts.get(np-1), p0) <= 0)) {
+            while ((np > 1) && (ccw(pts.get(np-2), pts.get(np-1), pt) <= 0)) {
                 hull.removeLast();
+                np -= 1;
             }
             hull.add(pt);
         }
