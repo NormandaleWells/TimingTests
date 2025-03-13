@@ -39,7 +39,7 @@ public class Graham {
     
         for (Point pt : pts) {
             int np = hull.size();
-            while ((np > 1) && (ccw(pts.get(np-2), pts.get(np-1), pt) <= 0)) {
+            while ((np > 1) && (ccw(hull.get(np-2), hull.get(np-1), pt) <= 0)) {
                 hull.removeLast();
                 np -= 1;
             }
@@ -50,10 +50,16 @@ public class Graham {
 
     public static void main(String[] args) {
         ArrayList<Point> pts = new ArrayList<Point>();
-        pts.add(new Point(-1, 0));
-        pts.add(new Point(1, 1));
-        pts.add(new Point(0, -1));
+        pts.add(new Point(0, 0));
         pts.add(new Point(1, 0));
+        pts.add(new Point(2, 0));
+        pts.add(new Point(2, 2));
+        pts.add(new Point(1, 1));
+        pts.add(new Point(0, 1));
+        pts.add(new Point(0, 3));
+        pts.add(new Point(0, 2));
+        pts.add(new Point(-2, 2));
+        pts.add(new Point(-1, 1));
         ArrayList<Point> hull = graham(pts);
         System.out.println(hull);
     }
