@@ -69,7 +69,7 @@ record Point(int x, int y)
         if (s.charAt(s.length()-1) != ')') {
             throw new RuntimeException("parsePoint: does not end with ')'");
         }
-        String[] fields = s.substring(0, s.length()-1).split(",");
+        String[] fields = s.substring(1, s.length()-1).split(",");
         if (fields.length != 2) {
             throw new RuntimeException("Invalid point format");
         }
