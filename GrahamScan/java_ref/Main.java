@@ -1,5 +1,7 @@
 import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -21,6 +23,26 @@ public class Main {
         return pts;
     }
 
+    private static void writePoints(ArrayList<Point> pts, String filename) throws IOException {
+        FileOutputStream outFile = null;
+        PrintStream ps = null;
+        if (filename.length() != 0) {
+            outFile = new FileOutputStream(filename);
+            ps = new PrintStream(outFile);
+        } else {
+            ps = System.out;
+        }
+
+        for (Point pt : pts) {
+            ps.println(pt);
+        }
+
+        if (filename.length() != 0) {
+            ps.close();
+            outFile.close();
+        }
+    }
+
     public static void main(String[] args) throws IOException {
 
         if (args.length < 1) {
@@ -36,6 +58,6 @@ public class Main {
 
         ArrayList<Point> pts = readPoints(inFile);
         ArrayList<Point> hull = Graham.graham(pts);
-        System.out.println(hull);
+        writePoints(hull, outFile);
     }
 }
