@@ -57,7 +57,13 @@ public class Main {
         }
 
         ArrayList<Point> pts = readPoints(inFile);
+
+        long start = System.currentTimeMillis();
         ArrayList<Point> hull = Graham.graham(pts);
+        long end = System.currentTimeMillis();
+        double elapsed = (end - start) / 1000.0;
+
         writePoints(hull, outFile);
+        System.out.println(elapsed);
     }
 }
