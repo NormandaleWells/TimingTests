@@ -20,6 +20,7 @@ public class Main {
             pts.add(pt);
         }
         ptsFile.close();
+        sc.close();
         return pts;
     }
 
